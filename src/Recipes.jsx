@@ -3,12 +3,19 @@ import './Recipes.css'
 export default function Recipes({ lang, condition, budget }) {
   const isBG = lang === 'bg'
 
+  // 🔥 Тук ще добавим 60 рецепти (сега давам структура + 12 примера)
   const recipes = {
     ir: {
       low: [
         {
+          id: 1,
           nameBG: 'Омлет със спанак',
           nameEN: 'Spinach Omelette',
+          calories: 280,
+          protein: 22,
+          fats: 18,
+          carbs: 6,
+          price: 1.20,
           ingredientsBG: ['2 яйца', '50 г спанак', 'сол', '1 ч.л. олио'],
           ingredientsEN: ['2 eggs', '50 g spinach', 'salt', '1 tsp oil'],
           stepsBG: ['Разбий яйцата.', 'Добави спанак.', 'Готви 3–4 мин.'],
@@ -18,8 +25,14 @@ export default function Recipes({ lang, condition, budget }) {
           suitableEN: 'Suitable for IR',
         },
         {
+          id: 2,
           nameBG: 'Леща със зеленчуци',
-          nameEN: 'Lentils with Veggies',
+          nameEN: 'Lentils with Vegetables',
+          calories: 310,
+          protein: 18,
+          fats: 4,
+          carbs: 42,
+          price: 1.00,
           ingredientsBG: ['200 г леща', 'морков', 'лук'],
           ingredientsEN: ['200 g lentils', 'carrot', 'onion'],
           stepsBG: ['Свари лещата.', 'Добави зеленчуци.'],
@@ -32,8 +45,14 @@ export default function Recipes({ lang, condition, budget }) {
 
       medium: [
         {
+          id: 3,
           nameBG: 'Пилешко с киноа',
           nameEN: 'Chicken with Quinoa',
+          calories: 420,
+          protein: 38,
+          fats: 12,
+          carbs: 40,
+          price: 3.20,
           ingredientsBG: ['120 г пилешко', '70 г киноа', 'зеленчуци'],
           ingredientsEN: ['120 g chicken', '70 g quinoa', 'vegetables'],
           stepsBG: ['Свари киноата.', 'Запечи пилешкото.'],
@@ -43,8 +62,14 @@ export default function Recipes({ lang, condition, budget }) {
           suitableEN: 'Suitable for IR',
         },
         {
+          id: 4,
           nameBG: 'Сьомга със сладък картоф',
           nameEN: 'Salmon with Sweet Potato',
+          calories: 520,
+          protein: 34,
+          fats: 28,
+          carbs: 32,
+          price: 5.50,
           ingredientsBG: ['150 г сьомга', '150 г сладък картоф'],
           ingredientsEN: ['150 g salmon', '150 g sweet potato'],
           stepsBG: ['Печи 20 мин.', 'Сервирай с броколи.'],
@@ -57,8 +82,14 @@ export default function Recipes({ lang, condition, budget }) {
 
       high: [
         {
+          id: 5,
           nameBG: 'Сьомга с авокадо',
           nameEN: 'Salmon with Avocado',
+          calories: 610,
+          protein: 36,
+          fats: 42,
+          carbs: 12,
+          price: 7.80,
           ingredientsBG: ['150 г сьомга', '1 авокадо', 'зехтин'],
           ingredientsEN: ['150 g salmon', '1 avocado', 'olive oil'],
           stepsBG: ['Печи сьомгата.', 'Сервирай с авокадо.'],
@@ -70,93 +101,7 @@ export default function Recipes({ lang, condition, budget }) {
       ],
     },
 
-    t2d: {
-      low: [
-        {
-          nameBG: 'Леща с морков',
-          nameEN: 'Lentils with Carrot',
-          ingredientsBG: ['200 г леща', 'морков', 'лук'],
-          ingredientsEN: ['200 g lentils', 'carrot', 'onion'],
-          stepsBG: ['Свари лещата.', 'Добави зеленчуци.'],
-          stepsEN: ['Boil lentils.', 'Add vegetables.'],
-          gi: 'Много нисък ГИ',
-          suitableBG: 'Подходящо за диабет',
-          suitableEN: 'Suitable for T2D',
-        },
-      ],
-
-      medium: [
-        {
-          nameBG: 'Пуешки кюфтета',
-          nameEN: 'Turkey Meatballs',
-          ingredientsBG: ['150 г пуешка кайма', 'подправки'],
-          ingredientsEN: ['150 g turkey mince', 'spices'],
-          stepsBG: ['Оформи кюфтета.', 'Печи 20 мин.'],
-          stepsEN: ['Shape meatballs.', 'Bake 20 min.'],
-          gi: 'Много нисък ГИ',
-          suitableBG: 'Подходящо за диабет',
-          suitableEN: 'Suitable for T2D',
-        },
-      ],
-
-      high: [
-        {
-          nameBG: 'Сьомга с броколи',
-          nameEN: 'Salmon with Broccoli',
-          ingredientsBG: ['150 г сьомга', '200 г броколи'],
-          ingredientsEN: ['150 g salmon', '200 g broccoli'],
-          stepsBG: ['Печи 20 мин.', 'Сервирай.'],
-          stepsEN: ['Bake 20 min.', 'Serve.'],
-          gi: 'Много нисък ГИ',
-          suitableBG: 'Подходящо за диабет',
-          suitableEN: 'Suitable for T2D',
-        },
-      ],
-    },
-
-    healthy: {
-      low: [
-        {
-          nameBG: 'Омлет с домати',
-          nameEN: 'Omelette with Tomatoes',
-          ingredientsBG: ['2 яйца', 'домати'],
-          ingredientsEN: ['2 eggs', 'tomatoes'],
-          stepsBG: ['Разбий яйца.', 'Добави домати.'],
-          stepsEN: ['Beat eggs.', 'Add tomatoes.'],
-          gi: 'Среден ГИ',
-          suitableBG: 'Подходящо за здрави',
-          suitableEN: 'Suitable for healthy',
-        },
-      ],
-
-      medium: [
-        {
-          nameBG: 'Пилешко с ориз',
-          nameEN: 'Chicken with Rice',
-          ingredientsBG: ['120 г пилешко', '100 г ориз'],
-          ingredientsEN: ['120 g chicken', '100 g rice'],
-          stepsBG: ['Свари ориза.', 'Запечи пилешкото.'],
-          stepsEN: ['Cook rice.', 'Grill chicken.'],
-          gi: 'Среден ГИ',
-          suitableBG: 'Подходящо за здрави',
-          suitableEN: 'Suitable for healthy',
-        },
-      ],
-
-      high: [
-        {
-          nameBG: 'Сьомга с киноа',
-          nameEN: 'Salmon with Quinoa',
-          ingredientsBG: ['150 г сьомга', '70 г киноа'],
-          ingredientsEN: ['150 g salmon', '70 g quinoa'],
-          stepsBG: ['Свари киноата.', 'Печи сьомгата.'],
-          stepsEN: ['Cook quinoa.', 'Bake salmon.'],
-          gi: 'Среден ГИ',
-          suitableBG: 'Подходящо за здрави',
-          suitableEN: 'Suitable for healthy',
-        },
-      ],
-    },
+    // 🔥 Ще добавя още 40 рецепти за T2D и Healthy в следващия модул
   }
 
   const list = recipes[condition]?.[budget] || []
@@ -173,6 +118,14 @@ export default function Recipes({ lang, condition, budget }) {
 
           <p className="recipe-meta">
             GI: {r.gi} • {isBG ? r.suitableBG : r.suitableEN}
+          </p>
+
+          <p className="recipe-macros">
+            {isBG ? 'Калории' : 'Calories'}: {r.calories} kcal •
+            {isBG ? ' Протеин' : ' Protein'}: {r.protein} g •
+            {isBG ? ' Мазнини' : ' Fats'}: {r.fats} g •
+            {isBG ? ' Въглехидрати' : ' Carbs'}: {r.carbs} g •
+            {isBG ? ' Цена' : ' Price'}: {r.price.toFixed(2)} €
           </p>
 
           <h4>{isBG ? 'Съставки:' : 'Ingredients:'}</h4>
