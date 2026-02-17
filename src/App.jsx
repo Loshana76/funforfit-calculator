@@ -1,299 +1,107 @@
-﻿import { useState } from 'react'
-import './App.css'
-import {
-  calculateBMR,
-  calculateBMI,
-  getBMIStatus,
-  calculateTDEE,
-  adjustForGoal,
-  calculateMacros,
-  getMenuForBudget,
-} from './calculator'
-import { translations } from './i18n'
+export const translations = {
+  bg: {
+    title: "FunForFit – Калкулатор за ИР и диабет тип 2",
+    subtitle: "Обща информация за калории и примерно меню. Не е медицински съвет.",
 
-function App() {
-  const [gender, setGender] = useState('female')
-  const [age, setAge] = useState('')
-  const [height, setHeight] = useState('')
-  const [weight, setWeight] = useState('')
-  const [activity, setActivity] = useState('sedentary')
-  const [goal, setGoal] = useState('lose')
-  const [hasIRorT2D, setHasIRorT2D] = useState(true)
-  const [budget, setBudget] = useState('medium')
+    gender: "Пол",
+    female: "Жена",
+    male: "Мъж",
 
-  const [bmr, setBmr] = useState(0)
-  const [bmi, setBmi] = useState(0)
-  const [tdee, setTdee] = useState(0)
-  const [targetCalories, setTargetCalories] = useState(0)
-  const [macros, setMacros] = useState({ protein: 0, fats: 0, carbs: 0 })
-  const [menu, setMenu] = useState(null)
+    age: "Възраст",
+    height: "Ръст (см)",
+    weight: "Тегло (кг)",
 
-  const [lang, setLang] = useState('bg')
-  const t = key => translations[lang][key] || key
+    activity: "Активност",
+    sedentary: "Седящ начин на живот",
+    light: "Лека (1–2 пъти седмично)",
+    moderate: "Умерена (3–4 пъти седмично)",
+    active: "Активна (5+ пъти седмично)",
+    very: "Много активна",
 
-  const handleCalculate = () => {
-    const bmrVal = calculateBMR({ gender, age, height, weight })
-    const bmiVal = calculateBMI({ height, weight })
-    const tdeeVal = calculateTDEE(bmrVal, activity)
-    const target = adjustForGoal(tdeeVal, goal, hasIRorT2D)
-    const macrosVal = calculateMacros(target, hasIRorT2D)
+    goal: "Цел",
+    lose: "Отслабване",
+    maintain: "Поддържане",
+    gain: "Качване",
 
-    setBmr(bmrVal)
-    setBmi(bmiVal)
-    setTdee(tdeeVal)
-    setTargetCalories(target)
-    setMacros(macrosVal)
+    condition: "Здравен контекст",
+    ir_t2d: "Инсулинова резистентност / Диабет тип 2",
+    none: "Без специфично състояние",
 
-    if (hasIRorT2D) {
-      const menuVal = getMenuForBudget({
-        calories: target,
-        budget,
-        lang,
-      })
-      setMenu(menuVal)
-    } else {
-      setMenu(null)
-    }
-  }
+    budget: "Дневен бюджет (EUR)",
+    low: "Нисък",
+    medium: "Среден",
+    high: "Висок",
 
-  const handleGeneratePDF = () => {
-    alert(lang === 'bg'
-      ? 'Тук в следваща версия ще се генерира PDF 😊'
-      : 'PDF generation will be added in a next version 😊'
-    )
-  }
+    calculate: "Изчисли",
+    generatePDF: "Генерирай PDF (скоро)",
 
-  return (
-    <div className="page">
-      <div className="container">
-        <header className="header">
-          <div className="header-top">
-            <div>
-              <h1>{t('title')}</h1>
-              <p className="subtitle">{t('subtitle')}</p>
-            </div>
-            <div className="lang-switch">
-              <button
-                onClick={() => setLang('bg')}
-                className={lang === 'bg' ? 'active' : ''}
-              >
-                BG
-              </button>
-              <button
-                onClick={() => setLang('en')}
-                className={lang === 'en' ? 'active' : ''}
-              >
-                EN
-              </button>
-            </div>
-          </div>
-        </header>
+    results: "Резултати",
+    bmr: "Основен метаболизъм (BMR)",
+    tdee: "Общ разход (TDEE)",
+    targetCalories: "Таргет калории",
+    bmi: "BMI",
 
-        <div className="grid">
-          <section className="card">
-            <h2>{t('gender')}</h2>
+    macros: "Макроси (приблизително)",
+    protein: "Протеин",
+    fats: "Мазнини",
+    carbs: "Въглехидрати",
 
-            <div className="field-row">
-              <label>{t('gender')}</label>
-              <div className="pill-group">
-                <button
-                  className={gender === 'female' ? 'pill active' : 'pill'}
-                  onClick={() => setGender('female')}
-                >
-                  {t('female')}
-                </button>
-                <button
-                  className={gender === 'male' ? 'pill active' : 'pill'}
-                  onClick={() => setGender('male')}
-                >
-                  {t('male')}
-                </button>
-              </div>
-            </div>
+    menuTitle: "Примерно дневно меню",
+    approxCost: "Приблизителна дневна цена",
 
-            <div className="field-row">
-              <label>{t('age')}</label>
-              <input
-                type="number"
-                value={age}
-                onChange={e => setAge(e.target.value)}
-                placeholder={lang === 'bg' ? 'Години' : 'Years'}
-              />
-            </div>
+    disclaimer: "Това е обща информация и не замества медицински съвет.",
+  },
 
-            <div className="field-row">
-              <label>{t('height')}</label>
-              <input
-                type="number"
-                value={height}
-                onChange={e => setHeight(e.target.value)}
-                placeholder={lang === 'bg' ? 'напр. 165' : 'e.g. 165'}
-              />
-            </div>
+  en: {
+    title: "FunForFit – IR & T2D Daily Planner",
+    subtitle: "General calorie & menu helper. Not medical advice.",
 
-            <div className="field-row">
-              <label>{t('weight')}</label>
-              <input
-                type="number"
-                value={weight}
-                onChange={e => setWeight(e.target.value)}
-                placeholder={lang === 'bg' ? 'напр. 70' : 'e.g. 70'}
-              />
-            </div>
+    gender: "Gender",
+    female: "Female",
+    male: "Male",
 
-            <div className="field-row">
-              <label>{t('activity')}</label>
-              <select value={activity} onChange={e => setActivity(e.target.value)}>
-                <option value="sedentary">{t('sedentary')}</option>
-                <option value="light">{t('light')}</option>
-                <option value="moderate">{t('moderate')}</option>
-                <option value="active">{t('active')}</option>
-                <option value="very">{t('very')}</option>
-              </select>
-            </div>
+    age: "Age",
+    height: "Height (cm)",
+    weight: "Weight (kg)",
 
-            <div className="field-row">
-              <label>{t('goal')}</label>
-              <select value={goal} onChange={e => setGoal(e.target.value)}>
-                <option value="lose">{t('lose')}</option>
-                <option value="maintain">{t('maintain')}</option>
-                <option value="gain">{t('gain')}</option>
-              </select>
-            </div>
+    activity: "Activity level",
+    sedentary: "Sedentary",
+    light: "Light (1–2x/week)",
+    moderate: "Moderate (3–4x/week)",
+    active: "Active (5+ x/week)",
+    very: "Very active",
 
-            <div className="field-row">
-              <label>{t('condition')}</label>
-              <select
-                value={hasIRorT2D ? 'ir_t2d' : 'none'}
-                onChange={e => setHasIRorT2D(e.target.value === 'ir_t2d')}
-              >
-                <option value="ir_t2d">{t('ir_t2d')}</option>
-                <option value="none">{t('none')}</option>
-              </select>
-            </div>
+    goal: "Goal",
+    lose: "Lose weight",
+    maintain: "Maintain weight",
+    gain: "Gain weight",
 
-            {hasIRorT2D && (
-              <div className="field-row">
-                <label>{t('budget')}</label>
-                <select value={budget} onChange={e => setBudget(e.target.value)}>
-                  <option value="low">{t('low')}</option>
-                  <option value="medium">{t('medium')}</option>
-                  <option value="high">{t('high')}</option>
-                </select>
-              </div>
-            )}
+    condition: "Health context",
+    ir_t2d: "Insulin resistance / Type 2 diabetes",
+    none: "No specific condition",
 
-            <button className="btn primary" onClick={handleCalculate}>
-              {t('calculate')}
-            </button>
-          </section>
+    budget: "Daily food budget (EUR)",
+    low: "Low",
+    medium: "Medium",
+    high: "High",
 
-          <section className="card">
-            <h2>{t('results')}</h2>
-            <div className="results-grid">
-              <div className="result-box">
-                <span className="label">{t('bmr')}</span>
-                <span className="value">{bmr || '--'} kcal</span>
-              </div>
-              <div className="result-box">
-                <span className="label">{t('tdee')}</span>
-                <span className="value">{tdee || '--'} kcal</span>
-              </div>
-              <div className="result-box">
-                <span className="label">{t('targetCalories')}</span>
-                <span className="value">{targetCalories || '--'} kcal</span>
-              </div>
-              <div className="result-box">
-                <span className="label">{t('bmi')}</span>
-                <span className="value">
-                  {bmi || '--'} {bmi ? `(${getBMIStatus(bmi)})` : ''}
-                </span>
-              </div>
-            </div>
+    calculate: "Calculate",
+    generatePDF: "Generate PDF (coming soon)",
 
-            <h3>{t('macros')}</h3>
-            <ul className="macros-list">
-              <li>
-                <span>{t('protein')}</span>
-                <strong>{macros.protein || 0} g</strong>
-              </li>
-              <li>
-                <span>{t('fats')}</span>
-                <strong>{macros.fats || 0} g</strong>
-              </li>
-              <li>
-                <span>{t('carbs')}</span>
-                <strong>{macros.carbs || 0} g</strong>
-              </li>
-            </ul>
+    results: "Results",
+    bmr: "BMR",
+    tdee: "TDEE",
+    targetCalories: "Target calories",
+    bmi: "BMI",
 
-            <p className="note">{t('disclaimer')}</p>
+    macros: "Macros (approx.)",
+    protein: "Protein",
+    fats: "Fats",
+    carbs: "Carbs",
 
-            <button className="btn secondary" onClick={handleGeneratePDF}>
-              {t('generatePDF')}
-            </button>
-          </section>
+    menuTitle: "Sample daily menu",
+    approxCost: "Approx. daily cost",
 
-          <section className="card full-width">
-            <h2>{t('menuTitle')}</h2>
-
-            {hasIRorT2D && !menu && (
-              <p className="note">
-                {lang === 'bg'
-                  ? 'Попълни данните и натисни „Изчисли“, за да видиш примерно меню и ориентировъчна дневна цена в евро.'
-                  : 'Fill in your data and click "Calculate" to see a sample menu and approximate daily cost in EUR.'}
-              </p>
-            )}
-
-            {hasIRorT2D && menu && (
-              <div className="menu-block">
-                <h3>{menu.name}</h3>
-                <p className="budget-line">
-                  {t('approxCost')}: ~{menu.approxPriceEUR} €
-                </p>
-                <ul>
-                  {menu.meals.map((m, i) => (
-                    <li key={i}>{m}</li>
-                  ))}
-                </ul>
-                <p className="note">
-                  {lang === 'bg'
-                    ? 'Това е примерен ден за вдъхновение, не е медицински план или предписание.'
-                    : 'This is a sample day for inspiration only, not a medical plan or prescription.'}
-                </p>
-              </div>
-            )}
-
-            {!hasIRorT2D && (
-              <div className="menu-block">
-                <h3>{lang === 'bg' ? 'Баланс за обща употреба' : 'Balanced example day'}</h3>
-                <ul>
-                  {lang === 'bg' ? (
-                    <>
-                      <li>Закуска: Овес с плод и ядки</li>
-                      <li>Снак: Кисело мляко и семена</li>
-                      <li>Обяд: Пилешко, ориз, салата</li>
-                      <li>Снак: Плод + ядки</li>
-                      <li>Вечеря: Риба, зеленчуци, малко въглехидрати</li>
-                    </>
-                  ) : (
-                    <>
-                      <li>Breakfast: Oatmeal with fruit and nuts</li>
-                      <li>Snack: Yogurt and seeds</li>
-                      <li>Lunch: Chicken, rice, salad</li>
-                      <li>Snack: Fruit + nuts</li>
-                      <li>Dinner: Fish, veggies, small portion of carbs</li>
-                    </>
-                  )}
-                </ul>
-              </div>
-            )}
-          </section>
-        </div>
-      </div>
-    </div>
-  )
+    disclaimer: "This is general information and not medical advice.",
+  },
 }
-
-export default App
-
