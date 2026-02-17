@@ -1,0 +1,96 @@
+.subscription-section {
+  margin-top: 20px;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.subscription-title {
+  margin: 0 0 10px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #2a7f62;
+}
+
+.subscription-subtitle {
+  margin: 0 0 20px;
+  font-size: 15px;
+  color: #444;
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.plan-card {
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 14px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.plan-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #2a7f62;
+}
+
+.plan-prices {
+  font-size: 14px;
+  color: #333;
+}
+
+.price-monthly {
+  font-weight: 600;
+}
+
+.price-yearly {
+  color: #2a7f62;
+  font-weight: 600;
+}
+
+.plan-features {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.payment-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.paypal-btn {
+  padding: 10px;
+  background: #ffc439;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.mypos-btn {
+  padding: 10px;
+  background: #2a7f62;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.subscription-note {
+  margin-top: 16px;
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+}
