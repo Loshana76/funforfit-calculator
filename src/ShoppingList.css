@@ -1,0 +1,45 @@
+.shopping-section {
+  margin-top: 20px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+}
+
+.shopping-title {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2a7f62;
+}
+
+.shopping-price {
+  margin: 0 0 16px;
+  font-size: 14px;
+  color: #666;
+}
+
+.shopping-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.shopping-card {
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.shopping-card h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.shopping-card ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+}
