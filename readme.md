@@ -1,4 +1,4 @@
-# FunForFit – IR & T2D Daily Planner
+# FunForFit â€“ IR & T2D Daily Planner
 
 A bilingual (BG/EN) Vite + React application designed for:
 
