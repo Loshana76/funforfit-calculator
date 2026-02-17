@@ -7,10 +7,12 @@ import {
   calculateTDEE,
   adjustForGoal,
   calculateMacros,
-  getMenuForBudget,
 } from './calculator'
 import { translations } from './i18n'
 import Recipes from './Recipes'
+import BudgetMenu from './BudgetMenu'
+import Guidance from './Guidance'
+import Subscription from './Subscription'
 
 function App() {
   const [gender, setGender] = useState('female')
@@ -27,7 +29,6 @@ function App() {
   const [tdee, setTdee] = useState(0)
   const [targetCalories, setTargetCalories] = useState(0)
   const [macros, setMacros] = useState({ protein: 0, fats: 0, carbs: 0 })
-  const [menu, setMenu] = useState(null)
 
   const [lang, setLang] = useState('bg')
   const t = key => translations[lang][key] || key
@@ -46,17 +47,6 @@ function App() {
     setTdee(tdeeVal)
     setTargetCalories(target)
     setMacros(macrosVal)
-
-    if (hasIRorT2D) {
-      const menuVal = getMenuForBudget({
-        calories: target,
-        budget,
-        lang,
-      })
-      setMenu(menuVal)
-    } else {
-      setMenu(null)
-    }
   }
 
   const conditionLabel = () => {
@@ -69,6 +59,17 @@ function App() {
       if (condition === 't2d') return 'Type 2 diabetes'
       return 'No specific condition'
     }
+  }
+
+  // тук ще вържат PayPal / myPOS реалните интеграции
+  const handleSubscribeClick = (provider, planId, billing) => {
+    // provider: 'paypal' | 'mypos'
+    // planId: 'basic' | 'premium'
+    // billing: 'monthly' | 'yearly'
+    console.log('Subscribe:', { provider, planId, billing })
+    // тук вкарваш:
+    // - PayPal JS SDK / myPOS Smart Checkout
+    // - извикване към твой backend за създаване на поръчка / абонамент
   }
 
   return (
@@ -98,7 +99,7 @@ function App() {
       </header>
 
       <main className="layout">
-        {/* Лява колона */}
+        {/* Лява колона – данни и контекст */}
         <section className="column column-left">
           <section className="card card-form">
             <h2 className="card-title">
@@ -214,20 +215,18 @@ function App() {
               </button>
             </div>
 
-            {hasIRorT2D && (
-              <div className="field-row">
-                <label className="field-label">
-                  {lang === 'bg'
-                    ? 'Дневен бюджет (EUR)'
-                    : 'Daily food budget (EUR)'}
-                </label>
-                <select value={budget} onChange={e => setBudget(e.target.value)}>
-                  <option value="low">{t('low')}</option>
-                  <option value="medium">{t('medium')}</option>
-                  <option value="high">{t('high')}</option>
-                </select>
-              </div>
-            )}
+            <div className="field-row">
+              <label className="field-label">
+                {lang === 'bg'
+                  ? 'Дневен бюджет (EUR)'
+                  : 'Daily food budget (EUR)'}
+              </label>
+              <select value={budget} onChange={e => setBudget(e.target.value)}>
+                <option value="low">{t('low')}</option>
+                <option value="medium">{t('medium')}</option>
+                <option value="high">{t('high')}</option>
+              </select>
+            </div>
 
             <p className="helper-text">
               {lang === 'bg'
@@ -241,7 +240,7 @@ function App() {
           </section>
         </section>
 
-        {/* Дясна колона */}
+        {/* Дясна колона – резултати, меню, рецепти, абонамент */}
         <section className="column column-right">
           <section className="card">
             <h2 className="card-title">
@@ -273,24 +272,6 @@ function App() {
                 </span>
               </div>
             </div>
-
-            <div className="explain-block">
-              <h3>
-                {lang === 'bg'
-                  ? 'Как да разчиташ тези числа'
-                  : 'How to read these numbers'}
-              </h3>
-              <p>
-                {lang === 'bg'
-                  ? 'BMR е енергията, която тялото ти изразходва в покой. TDEE включва и ежедневната активност.'
-                  : 'BMR is the energy your body uses at rest. TDEE includes your daily activity.'}
-              </p>
-              <p>
-                {lang === 'bg'
-                  ? 'BMI е ориентир за теглото спрямо ръста, но не отчита мускулна маса.'
-                  : 'BMI is a rough indicator and does not reflect muscle mass.'}
-              </p>
-            </div>
           </section>
 
           <section className="card">
@@ -314,25 +295,12 @@ function App() {
                 <strong>{macros.carbs || 0} g</strong>
               </li>
             </ul>
-
-            <div className="explain-block">
-              <h3>
-                {lang === 'bg'
-                  ? 'Защо тези макроси са важни'
-                  : 'Why these macros matter'}
-              </h3>
-              <p>
-                {lang === 'bg'
-                  ? 'Протеинът поддържа ситост и стабилна кръвна захар. Мазнините поддържат хормонален баланс. Въглехидратите са ограничени при ИР и диабет.'
-                  : 'Protein supports satiety and stable blood sugar. Fats support hormonal balance. Carbs are moderated in IR and T2D.'}
-              </p>
-            </div>
           </section>
 
           <section className="card">
             <h2 className="card-title">
               {lang === 'bg'
-                ? '5. Примерно меню'
+                ? '5. Примерно меню за деня'
                 : '5. Sample daily menu'}
             </h2>
 
@@ -340,92 +308,24 @@ function App() {
               {lang === 'bg' ? 'Контекст: ' : 'Context: '} {conditionLabel()}
             </p>
 
-            {hasIRorT2D && menu && (
-              <div className="menu-block">
-                <h3>{menu.name}</h3>
-                <p className="budget-line">
-                  {t('approxCost')}: ~{menu.approxPriceEUR} €
-                </p>
-                <ul className="menu-list">
-                  {menu.meals.map((m, i) => (
-                    <li key={i}>{m}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {!hasIRorT2D && (
-              <div className="menu-block">
-                <h3>
-                  {lang === 'bg'
-                    ? 'Балансиран примерен ден'
-                    : 'Balanced example day'}
-                </h3>
-                <ul className="menu-list">
-                  {lang === 'bg' ? (
-                    <>
-                      <li>Закуска: Овес с плод и ядки</li>
-                      <li>Снак: Кисело мляко и семена</li>
-                      <li>Обяд: Пилешко, ориз, салата</li>
-                      <li>Снак: Плод + ядки</li>
-                      <li>Вечеря: Риба и зеленчуци</li>
-                    </>
-                  ) : (
-                    <>
-                      <li>Breakfast: Oatmeal with fruit and nuts</li>
-                      <li>Snack: Yogurt and seeds</li>
-                      <li>Lunch: Chicken, rice, salad</li>
-                      <li>Snack: Fruit + nuts</li>
-                      <li>Dinner: Fish and vegetables</li>
-                    </>
-                  )}
-                </ul>
-              </div>
-            )}
+            <BudgetMenu
+              lang={lang}
+              condition={condition}
+              budget={budget}
+              calories={targetCalories}
+            />
           </section>
 
-          {/* РЕЦЕПТИ */}
-          <Recipes lang={lang} condition={condition} />
-<Recipes lang={lang} condition={condition} budget={budget} />
+          <Recipes lang={lang} condition={condition} budget={budget} />
 
-          {/* АБОНАМЕНТ */}
-          <section className="card card-subscription">
-            <h2 className="card-title">
-              {lang === 'bg'
-                ? '6. Искаш персонален план и рецепти?'
-                : '6. Do you want a personal plan and recipes?'}
-            </h2>
+          <Guidance lang={lang} condition={condition} />
 
-            <p>
-              {lang === 'bg'
-                ? 'Абонирай се за персонален 7-дневен план с рецепти, точни грамажи и списък за пазаруване.'
-                : 'Subscribe for a personal 7-day plan with recipes, exact portions and a shopping list.'}
-            </p>
-
-            <ul className="benefits-list">
-              {lang === 'bg' ? (
-                <>
-                  <li>Персонално меню за 7 дни</li>
-                  <li>Рецепти с точни грамажи</li>
-                  <li>Списък за пазаруване</li>
-                  <li>Адаптация за ИР / диабет / здрави</li>
-                </>
-              ) : (
-                <>
-                  <li>Personal 7-day meal plan</li>
-                  <li>Recipes with exact portions</li>
-                  <li>Shopping list</li>
-                  <li>Adapted for IR / T2D / healthy</li>
-                </>
-              )}
-            </ul>
-
-            <p className="price-line">
-              {lang === 'bg'
-                ? 'Скоро: абонамент на достъпна цена.'
-                : 'Coming soon: affordable subscription.'}
-            </p>
-          </section>
+          <Subscription
+            lang={lang}
+            // тук можеш да подадеш handler-и за реално плащане
+            // и да ги вържеш към PayPal / myPOS
+            onSubscribe={handleSubscribeClick}
+          />
         </section>
       </main>
 
@@ -441,4 +341,3 @@ function App() {
 }
 
 export default App
-
