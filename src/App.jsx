@@ -386,6 +386,7 @@ function App() {
 
           {/* РЕЦЕПТИ */}
           <Recipes lang={lang} condition={condition} />
+<Recipes lang={lang} condition={condition} budget={budget} />
 
           {/* АБОНАМЕНТ */}
           <section className="card card-subscription">
@@ -440,3 +441,4 @@ function App() {
 }
 
 export default App
+
