@@ -1,157 +1,170 @@
-﻿import './Recipes.css'
+import './Recipes.css'
 
-export default function Recipes({ lang, condition }) {
+export default function Recipes({ lang, condition, budget }) {
   const isBG = lang === 'bg'
 
   const recipes = {
-    ir: [
-      {
-        nameBG: 'Омлет със спанак и сирене',
-        nameEN: 'Spinach & Cheese Omelette',
-        ingredientsBG: [
-          '2 яйца',
-          '50 г спанак',
-          '30 г сирене',
-          '1 ч.л. зехтин',
-        ],
-        ingredientsEN: [
-          '2 eggs',
-          '50 g spinach',
-          '30 g cheese',
-          '1 tsp olive oil',
-        ],
-        stepsBG: [
-          'Разбий яйцата.',
-          'Добави спанак и сирене.',
-          'Готви на слаб огън 3–4 минути.',
-        ],
-        stepsEN: [
-          'Beat the eggs.',
-          'Add spinach and cheese.',
-          'Cook on low heat for 3–4 minutes.',
-        ],
-        gi: 'Нисък ГИ',
-        suitableBG: 'Подходящо за: ИР, диабет',
-        suitableEN: 'Suitable for: IR, T2D',
-      },
+    ir: {
+      low: [
+        {
+          nameBG: 'Омлет със спанак',
+          nameEN: 'Spinach Omelette',
+          ingredientsBG: ['2 яйца', '50 г спанак', 'сол', '1 ч.л. олио'],
+          ingredientsEN: ['2 eggs', '50 g spinach', 'salt', '1 tsp oil'],
+          stepsBG: ['Разбий яйцата.', 'Добави спанак.', 'Готви 3–4 мин.'],
+          stepsEN: ['Beat eggs.', 'Add spinach.', 'Cook 3–4 min.'],
+          gi: 'Нисък ГИ',
+          suitableBG: 'Подходящо за ИР',
+          suitableEN: 'Suitable for IR',
+        },
+        {
+          nameBG: 'Леща със зеленчуци',
+          nameEN: 'Lentils with Veggies',
+          ingredientsBG: ['200 г леща', 'морков', 'лук'],
+          ingredientsEN: ['200 g lentils', 'carrot', 'onion'],
+          stepsBG: ['Свари лещата.', 'Добави зеленчуци.'],
+          stepsEN: ['Boil lentils.', 'Add vegetables.'],
+          gi: 'Много нисък ГИ',
+          suitableBG: 'Подходящо за ИР',
+          suitableEN: 'Suitable for IR',
+        },
+      ],
 
-      {
-        nameBG: 'Пилешко с киноа и салата',
-        nameEN: 'Chicken with Quinoa & Salad',
-        ingredientsBG: [
-          '120 г пилешко',
-          '70 г киноа',
-          '100 г зеленчуци',
-          '1 ч.л. зехтин',
-        ],
-        ingredientsEN: [
-          '120 g chicken',
-          '70 g quinoa',
-          '100 g vegetables',
-          '1 tsp olive oil',
-        ],
-        stepsBG: [
-          'Свари киноата.',
-          'Запечи пилешкото.',
-          'Сервирай със салата.',
-        ],
-        stepsEN: ['Cook quinoa.', 'Grill the chicken.', 'Serve with salad.'],
-        gi: 'Нисък ГИ',
-        suitableBG: 'Подходящо за: ИР',
-        suitableEN: 'Suitable for: IR',
-      },
-    ],
+      medium: [
+        {
+          nameBG: 'Пилешко с киноа',
+          nameEN: 'Chicken with Quinoa',
+          ingredientsBG: ['120 г пилешко', '70 г киноа', 'зеленчуци'],
+          ingredientsEN: ['120 g chicken', '70 g quinoa', 'vegetables'],
+          stepsBG: ['Свари киноата.', 'Запечи пилешкото.'],
+          stepsEN: ['Cook quinoa.', 'Grill chicken.'],
+          gi: 'Нисък ГИ',
+          suitableBG: 'Подходящо за ИР',
+          suitableEN: 'Suitable for IR',
+        },
+        {
+          nameBG: 'Сьомга със сладък картоф',
+          nameEN: 'Salmon with Sweet Potato',
+          ingredientsBG: ['150 г сьомга', '150 г сладък картоф'],
+          ingredientsEN: ['150 g salmon', '150 g sweet potato'],
+          stepsBG: ['Печи 20 мин.', 'Сервирай с броколи.'],
+          stepsEN: ['Bake 20 min.', 'Serve with broccoli.'],
+          gi: 'Нисък ГИ',
+          suitableBG: 'Подходящо за ИР',
+          suitableEN: 'Suitable for IR',
+        },
+      ],
 
-    t2d: [
-      {
-        nameBG: 'Леща със зеленчуци',
-        nameEN: 'Lentils with Vegetables',
-        ingredientsBG: ['200 г леща', '1 морков', '1 глава лук', 'Подправки'],
-        ingredientsEN: ['200 g lentils', '1 carrot', '1 onion', 'Spices'],
-        stepsBG: [
-          'Свари лещата.',
-          'Добави зеленчуците.',
-          'Остави да къкри 15 мин.',
-        ],
-        stepsEN: [
-          'Boil the lentils.',
-          'Add vegetables.',
-          'Simmer for 15 minutes.',
-        ],
-        gi: 'Много нисък ГИ',
-        suitableBG: 'Подходящо за: диабет тип 2',
-        suitableEN: 'Suitable for: T2D',
-      },
+      high: [
+        {
+          nameBG: 'Сьомга с авокадо',
+          nameEN: 'Salmon with Avocado',
+          ingredientsBG: ['150 г сьомга', '1 авокадо', 'зехтин'],
+          ingredientsEN: ['150 g salmon', '1 avocado', 'olive oil'],
+          stepsBG: ['Печи сьомгата.', 'Сервирай с авокадо.'],
+          stepsEN: ['Bake salmon.', 'Serve with avocado.'],
+          gi: 'Нисък ГИ',
+          suitableBG: 'Подходящо за ИР',
+          suitableEN: 'Suitable for IR',
+        },
+      ],
+    },
 
-      {
-        nameBG: 'Пуешки кюфтета с карфиолено пюре',
-        nameEN: 'Turkey Meatballs with Cauliflower Mash',
-        ingredientsBG: [
-          '150 г пуешка кайма',
-          '200 г карфиол',
-          'Подправки',
-          '1 ч.л. зехтин',
-        ],
-        ingredientsEN: [
-          '150 g turkey mince',
-          '200 g cauliflower',
-          'Spices',
-          '1 tsp olive oil',
-        ],
-        stepsBG: [
-          'Оформи кюфтета и ги запечи.',
-          'Свари карфиола и го пасирай.',
-        ],
-        stepsEN: ['Shape meatballs and bake.', 'Boil cauliflower and blend.'],
-        gi: 'Много нисък ГИ',
-        suitableBG: 'Подходящо за: диабет тип 2',
-        suitableEN: 'Suitable for: T2D',
-      },
-    ],
+    t2d: {
+      low: [
+        {
+          nameBG: 'Леща с морков',
+          nameEN: 'Lentils with Carrot',
+          ingredientsBG: ['200 г леща', 'морков', 'лук'],
+          ingredientsEN: ['200 g lentils', 'carrot', 'onion'],
+          stepsBG: ['Свари лещата.', 'Добави зеленчуци.'],
+          stepsEN: ['Boil lentils.', 'Add vegetables.'],
+          gi: 'Много нисък ГИ',
+          suitableBG: 'Подходящо за диабет',
+          suitableEN: 'Suitable for T2D',
+        },
+      ],
 
-    healthy: [
-      {
-        nameBG: 'Овес с плод и ядки',
-        nameEN: 'Oatmeal with Fruit & Nuts',
-        ingredientsBG: [
-          '50 г овес',
-          '150 мл мляко или вода',
-          '1 плод',
-          '10 г ядки',
-        ],
-        ingredientsEN: [
-          '50 g oats',
-          '150 ml milk or water',
-          '1 fruit',
-          '10 g nuts',
-        ],
-        stepsBG: ['Свари овеса.', 'Добави плод и ядки.'],
-        stepsEN: ['Cook oats.', 'Add fruit and nuts.'],
-        gi: 'Среден ГИ',
-        suitableBG: 'Подходящо за: здрави хора',
-        suitableEN: 'Suitable for: healthy individuals',
-      },
+      medium: [
+        {
+          nameBG: 'Пуешки кюфтета',
+          nameEN: 'Turkey Meatballs',
+          ingredientsBG: ['150 г пуешка кайма', 'подправки'],
+          ingredientsEN: ['150 g turkey mince', 'spices'],
+          stepsBG: ['Оформи кюфтета.', 'Печи 20 мин.'],
+          stepsEN: ['Shape meatballs.', 'Bake 20 min.'],
+          gi: 'Много нисък ГИ',
+          suitableBG: 'Подходящо за диабет',
+          suitableEN: 'Suitable for T2D',
+        },
+      ],
 
-      {
-        nameBG: 'Пилешко с ориз и салата',
-        nameEN: 'Chicken with Rice & Salad',
-        ingredientsBG: ['120 г пилешко', '100 г ориз', 'Салата'],
-        ingredientsEN: ['120 g chicken', '100 g rice', 'Salad'],
-        stepsBG: ['Свари ориза.', 'Запечи пилешкото.', 'Сервирай със салата.'],
-        stepsEN: ['Cook rice.', 'Grill chicken.', 'Serve with salad.'],
-        gi: 'Среден ГИ',
-        suitableBG: 'Подходящо за: здрави хора',
-        suitableEN: 'Suitable for: healthy individuals',
-      },
-    ],
+      high: [
+        {
+          nameBG: 'Сьомга с броколи',
+          nameEN: 'Salmon with Broccoli',
+          ingredientsBG: ['150 г сьомга', '200 г броколи'],
+          ingredientsEN: ['150 g salmon', '200 g broccoli'],
+          stepsBG: ['Печи 20 мин.', 'Сервирай.'],
+          stepsEN: ['Bake 20 min.', 'Serve.'],
+          gi: 'Много нисък ГИ',
+          suitableBG: 'Подходящо за диабет',
+          suitableEN: 'Suitable for T2D',
+        },
+      ],
+    },
+
+    healthy: {
+      low: [
+        {
+          nameBG: 'Омлет с домати',
+          nameEN: 'Omelette with Tomatoes',
+          ingredientsBG: ['2 яйца', 'домати'],
+          ingredientsEN: ['2 eggs', 'tomatoes'],
+          stepsBG: ['Разбий яйца.', 'Добави домати.'],
+          stepsEN: ['Beat eggs.', 'Add tomatoes.'],
+          gi: 'Среден ГИ',
+          suitableBG: 'Подходящо за здрави',
+          suitableEN: 'Suitable for healthy',
+        },
+      ],
+
+      medium: [
+        {
+          nameBG: 'Пилешко с ориз',
+          nameEN: 'Chicken with Rice',
+          ingredientsBG: ['120 г пилешко', '100 г ориз'],
+          ingredientsEN: ['120 g chicken', '100 g rice'],
+          stepsBG: ['Свари ориза.', 'Запечи пилешкото.'],
+          stepsEN: ['Cook rice.', 'Grill chicken.'],
+          gi: 'Среден ГИ',
+          suitableBG: 'Подходящо за здрави',
+          suitableEN: 'Suitable for healthy',
+        },
+      ],
+
+      high: [
+        {
+          nameBG: 'Сьомга с киноа',
+          nameEN: 'Salmon with Quinoa',
+          ingredientsBG: ['150 г сьомга', '70 г киноа'],
+          ingredientsEN: ['150 g salmon', '70 g quinoa'],
+          stepsBG: ['Свари киноата.', 'Печи сьомгата.'],
+          stepsEN: ['Cook quinoa.', 'Bake salmon.'],
+          gi: 'Среден ГИ',
+          suitableBG: 'Подходящо за здрави',
+          suitableEN: 'Suitable for healthy',
+        },
+      ],
+    },
   }
 
-  const list = recipes[condition] || []
+  const list = recipes[condition]?.[budget] || []
 
   return (
     <div className="recipes-section">
       <h2 className="recipes-title">
-        {isBG ? 'Рецепти за деня' : 'Daily Recipes'}
+        {isBG ? 'Рецепти според твоя бюджет' : 'Recipes by your budget'}
       </h2>
 
       {list.map((r, i) => (
@@ -180,5 +193,3 @@ export default function Recipes({ lang, condition }) {
     </div>
   )
 }
-
-
