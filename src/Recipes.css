@@ -1,0 +1,46 @@
+.recipes-section {
+  margin-top: 20px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+.recipes-title {
+  margin: 0 0 16px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2a7f62;
+}
+
+.recipe-card {
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  background: #fafafa;
+}
+
+.recipe-name {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.recipe-meta {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: #666;
+}
+
+.recipe-card h4 {
+  margin: 12px 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.recipe-card ul,
+.recipe-card ol {
+  margin: 0 0 8px 18px;
+  font-size: 14px;
+}
