@@ -10,6 +10,7 @@ import {
   getMenuForBudget,
 } from './calculator'
 import { translations } from './i18n'
+import Recipes from './Recipes'
 
 function App() {
   const [gender, setGender] = useState('female')
@@ -18,7 +19,7 @@ function App() {
   const [weight, setWeight] = useState('')
   const [activity, setActivity] = useState('sedentary')
   const [goal, setGoal] = useState('lose')
-  const [condition, setCondition] = useState<'ir' | 't2d' | 'healthy'>('ir')
+  const [condition, setCondition] = useState('ir')
   const [budget, setBudget] = useState('medium')
 
   const [bmr, setBmr] = useState(0)
@@ -58,14 +59,6 @@ function App() {
     }
   }
 
-  const handleGeneratePDF = () => {
-    alert(
-      lang === 'bg'
-        ? 'В следваща версия тук ще можеш да свалиш персонален PDF план.'
-        : 'In a next version you will be able to download a personal PDF plan here.'
-    )
-  }
-
   const conditionLabel = () => {
     if (lang === 'bg') {
       if (condition === 'ir') return 'Инсулинова резистентност'
@@ -86,6 +79,7 @@ function App() {
             <h1 className="site-title">{t('title')}</h1>
             <p className="site-subtitle">{t('subtitle')}</p>
           </div>
+
           <div className="lang-switch">
             <button
               onClick={() => setLang('bg')}
@@ -104,7 +98,7 @@ function App() {
       </header>
 
       <main className="layout">
-        {/* Лява колона – калкулатор + контекст */}
+        {/* Лява колона */}
         <section className="column column-left">
           <section className="card card-form">
             <h2 className="card-title">
@@ -135,7 +129,6 @@ function App() {
                 type="number"
                 value={age}
                 onChange={e => setAge(e.target.value)}
-                placeholder={lang === 'bg' ? 'Години' : 'Years'}
               />
             </div>
 
@@ -145,7 +138,6 @@ function App() {
                 type="number"
                 value={height}
                 onChange={e => setHeight(e.target.value)}
-                placeholder={lang === 'bg' ? 'напр. 165' : 'e.g. 165'}
               />
             </div>
 
@@ -155,7 +147,6 @@ function App() {
                 type="number"
                 value={weight}
                 onChange={e => setWeight(e.target.value)}
-                placeholder={lang === 'bg' ? 'напр. 70' : 'e.g. 70'}
               />
             </div>
 
@@ -199,6 +190,7 @@ function App() {
               >
                 {lang === 'bg' ? 'Инсулинова резистентност' : 'Insulin resistance'}
               </button>
+
               <button
                 className={
                   condition === 't2d'
@@ -209,6 +201,7 @@ function App() {
               >
                 {lang === 'bg' ? 'Диабет тип 2' : 'Type 2 diabetes'}
               </button>
+
               <button
                 className={
                   condition === 'healthy'
@@ -225,7 +218,7 @@ function App() {
               <div className="field-row">
                 <label className="field-label">
                   {lang === 'bg'
-                    ? 'Дневен бюджет за храна (EUR)'
+                    ? 'Дневен бюджет (EUR)'
                     : 'Daily food budget (EUR)'}
                 </label>
                 <select value={budget} onChange={e => setBudget(e.target.value)}>
@@ -238,8 +231,8 @@ function App() {
 
             <p className="helper-text">
               {lang === 'bg'
-                ? 'Този калкулатор не замества медицински съвет. Ако имаш диагноза, консултирай се с лекар.'
-                : 'This tool does not replace medical advice. If you have a diagnosis, consult your doctor.'}
+                ? 'Този инструмент не замества медицински съвет.'
+                : 'This tool does not replace medical advice.'}
             </p>
 
             <button className="btn primary full" onClick={handleCalculate}>
@@ -248,7 +241,7 @@ function App() {
           </section>
         </section>
 
-        {/* Дясна колона – резултати, обяснения, меню, абонамент */}
+        {/* Дясна колона */}
         <section className="column column-right">
           <section className="card">
             <h2 className="card-title">
@@ -262,14 +255,17 @@ function App() {
                 <span className="label">{t('bmr')}</span>
                 <span className="value">{bmr || '--'} kcal</span>
               </div>
+
               <div className="result-box">
                 <span className="label">{t('tdee')}</span>
                 <span className="value">{tdee || '--'} kcal</span>
               </div>
+
               <div className="result-box">
                 <span className="label">{t('targetCalories')}</span>
                 <span className="value">{targetCalories || '--'} kcal</span>
               </div>
+
               <div className="result-box">
                 <span className="label">{t('bmi')}</span>
                 <span className="value">
@@ -286,13 +282,13 @@ function App() {
               </h3>
               <p>
                 {lang === 'bg'
-                  ? 'BMR е енергията, която тялото ти изразходва в покой. TDEE включва и ежедневната активност. Таргет калориите са ориентир за твоята цел – отслабване, поддържане или качване.'
-                  : 'BMR is the energy your body uses at rest. TDEE includes your daily activity. Target calories are an estimate for your goal – weight loss, maintenance or gain.'}
+                  ? 'BMR е енергията, която тялото ти изразходва в покой. TDEE включва и ежедневната активност.'
+                  : 'BMR is the energy your body uses at rest. TDEE includes your daily activity.'}
               </p>
               <p>
                 {lang === 'bg'
-                  ? 'BMI е ориентир за теглото спрямо ръста, но не отчита мускулна маса и индивидуални особености.'
-                  : 'BMI is a rough indicator based on height and weight and does not reflect muscle mass or individual specifics.'}
+                  ? 'BMI е ориентир за теглото спрямо ръста, но не отчита мускулна маса.'
+                  : 'BMI is a rough indicator and does not reflect muscle mass.'}
               </p>
             </div>
           </section>
@@ -300,7 +296,7 @@ function App() {
           <section className="card">
             <h2 className="card-title">
               {lang === 'bg'
-                ? '4. Макроси за твоя ден'
+                ? '4. Макроси за деня'
                 : '4. Your daily macros'}
             </h2>
 
@@ -327,36 +323,22 @@ function App() {
               </h3>
               <p>
                 {lang === 'bg'
-                  ? 'По-високият протеин помага за ситост и стабилна кръвна захар. Мазнините поддържат хормонален баланс. Въглехидратите са ограничени при ИР и диабет, за да се избегнат резки пикове.'
-                  : 'Higher protein supports satiety and stable blood sugar. Fats support hormonal balance. Carbs are moderated in IR and T2D to avoid sharp spikes.'}
+                  ? 'Протеинът поддържа ситост и стабилна кръвна захар. Мазнините поддържат хормонален баланс. Въглехидратите са ограничени при ИР и диабет.'
+                  : 'Protein supports satiety and stable blood sugar. Fats support hormonal balance. Carbs are moderated in IR and T2D.'}
               </p>
             </div>
-
-            <button className="btn secondary" onClick={handleGeneratePDF}>
-              {lang === 'bg'
-                ? 'Искам персонален PDF план'
-                : 'I want a personal PDF plan'}
-            </button>
           </section>
 
           <section className="card">
             <h2 className="card-title">
               {lang === 'bg'
-                ? '5. Примерно меню за деня'
+                ? '5. Примерно меню'
                 : '5. Sample daily menu'}
             </h2>
 
             <p className="condition-label">
               {lang === 'bg' ? 'Контекст: ' : 'Context: '} {conditionLabel()}
             </p>
-
-            {hasIRorT2D && !menu && (
-              <p className="helper-text">
-                {lang === 'bg'
-                  ? 'Попълни данните и натисни „Изчисли резултатите“, за да видиш примерно меню и ориентировъчна дневна цена.'
-                  : 'Fill in your data and click "Calculate results" to see a sample menu and approximate daily cost.'}
-              </p>
-            )}
 
             {hasIRorT2D && menu && (
               <div className="menu-block">
@@ -369,11 +351,6 @@ function App() {
                     <li key={i}>{m}</li>
                   ))}
                 </ul>
-                <p className="note">
-                  {lang === 'bg'
-                    ? 'Това е примерен ден за вдъхновение, не е медицински план или предписание.'
-                    : 'This is a sample day for inspiration only, not a medical plan or prescription.'}
-                </p>
               </div>
             )}
 
@@ -391,7 +368,7 @@ function App() {
                       <li>Снак: Кисело мляко и семена</li>
                       <li>Обяд: Пилешко, ориз, салата</li>
                       <li>Снак: Плод + ядки</li>
-                      <li>Вечеря: Риба, зеленчуци, малко въглехидрати</li>
+                      <li>Вечеря: Риба и зеленчуци</li>
                     </>
                   ) : (
                     <>
@@ -399,7 +376,7 @@ function App() {
                       <li>Snack: Yogurt and seeds</li>
                       <li>Lunch: Chicken, rice, salad</li>
                       <li>Snack: Fruit + nuts</li>
-                      <li>Dinner: Fish, veggies, small portion of carbs</li>
+                      <li>Dinner: Fish and vegetables</li>
                     </>
                   )}
                 </ul>
@@ -407,17 +384,23 @@ function App() {
             )}
           </section>
 
+          {/* РЕЦЕПТИ */}
+          <Recipes lang={lang} condition={condition} />
+
+          {/* АБОНАМЕНТ */}
           <section className="card card-subscription">
             <h2 className="card-title">
               {lang === 'bg'
                 ? '6. Искаш персонален план и рецепти?'
-                : '6. Want a personal plan and recipes?'}
+                : '6. Do you want a personal plan and recipes?'}
             </h2>
+
             <p>
               {lang === 'bg'
-                ? 'Ако искаш детайлен 7-дневен план с рецепти, точни грамажи и списък за пазаруване, съобразен с твоето състояние (ИР, диабет или без), можеш да се абонираш за пълен достъп.'
-                : 'If you want a detailed 7-day plan with recipes, exact portions and a shopping list tailored to your context (IR, T2D or none), you can subscribe for full access.'}
+                ? 'Абонирай се за персонален 7-дневен план с рецепти, точни грамажи и списък за пазаруване.'
+                : 'Subscribe for a personal 7-day plan with recipes, exact portions and a shopping list.'}
             </p>
+
             <ul className="benefits-list">
               {lang === 'bg' ? (
                 <>
@@ -435,10 +418,11 @@ function App() {
                 </>
               )}
             </ul>
+
             <p className="price-line">
               {lang === 'bg'
-                ? 'Скоро: абонаментен достъп на достъпна цена.'
-                : 'Coming soon: affordable subscription access.'}
+                ? 'Скоро: абонамент на достъпна цена.'
+                : 'Coming soon: affordable subscription.'}
             </p>
           </section>
         </section>
@@ -447,8 +431,8 @@ function App() {
       <footer className="site-footer">
         <p>
           {lang === 'bg'
-            ? 'Този инструмент е с информативна цел и не замества медицински съвет.'
-            : 'This tool is for informational purposes only and does not replace medical advice.'}
+            ? 'Този инструмент е информативен и не замества медицински съвет.'
+            : 'This tool is informational and does not replace medical advice.'}
         </p>
       </footer>
     </div>
